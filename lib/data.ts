@@ -18,13 +18,13 @@ export const profile = {
 export const stats = [
   { value: '6+', label: 'Years experience' },
   { value: '3', label: 'Companies' },
-  { value: '22', label: 'Technologies' },
+  { value: '24', label: 'Technologies' },
 ]
 
 export const skills = {
   Frontend: ['HTML', 'CSS', 'JavaScript', 'TypeScript'],
   Backend: ['PHP', 'Laravel', 'Node.js', 'Express', 'NestJS'],
-  Data: ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis', 'RabbitMQ'],
+  Data: ['MySQL', 'PostgreSQL', 'MongoDB', 'TypeORM', 'Prisma', 'Redis', 'RabbitMQ'],
   'Quality & tools': ['Jest', 'Docker', 'Linux', 'AWS', 'Git', 'Jira', 'Confluence', 'Bitbucket'],
 }
 
@@ -74,7 +74,7 @@ export type Project = {
 export const personalProjects: Project[] = [
   {
     slug: 'ibiy',
-    title: 'Ibiy',
+    title: 'I Believe In You',
     kind: 'personal',
     summary: 'API for projects and participants, with payments, rewards, vouchers, and partner donations.',
     tags: ['NestJS', 'TypeScript', 'TypeORM', 'MySQL', 'Redis', 'AWS'],
@@ -96,7 +96,7 @@ export const personalProjects: Project[] = [
   },
   {
     slug: 'rockwell-logic-portal',
-    title: 'Rockwell Logic Portal',
+    title: 'Rockwell',
     kind: 'personal',
     summary: 'API for a financial-advice portal: fact finds, products, risk assessments, and generated application files.',
     tags: ['NestJS', 'TypeScript', 'TypeORM', 'PostgreSQL', 'Redis', 'DocuSign'],
@@ -117,8 +117,8 @@ export const personalProjects: Project[] = [
     ],
   },
   {
-    slug: 'stolari',
-    title: 'Stolari',
+    slug: 'artinvest',
+    title: 'Artinvest',
     kind: 'personal',
     summary: 'Product catalog and shop: categories, cart, checkout, blogs, and job offers, with a Next.js front end.',
     tags: ['NestJS', 'TypeORM', 'PostgreSQL', 'Next.js', 'Redux'],
@@ -161,8 +161,8 @@ export const personalProjects: Project[] = [
     ],
   },
   {
-    slug: 'riana',
-    title: 'Riana',
+    slug: 'nutrition-studio',
+    title: 'Nutrition Studio',
     kind: 'personal',
     summary: 'Clinic nutrition platform: patients, visits, meals, and generated nutrition-plan PDFs.',
     tags: ['Nx', 'NestJS', 'Prisma', 'Vue', 'TypeScript'],
@@ -206,7 +206,7 @@ export const personalProjects: Project[] = [
   },
   {
     slug: 'driveme',
-    title: 'DriveMe',
+    title: 'Drive Me',
     kind: 'personal',
     summary: 'Backend for drivers, custom routes, expenses, and account email, with a Vue client.',
     tags: ['NestJS', 'Prisma', 'Vue', 'Nx', 'PostgreSQL'],
@@ -258,7 +258,7 @@ export const work: Project[] = [
     company: 'Codifying',
     role: 'Back-End Developer',
     type: 'Back-end',
-    dates: 'Oct 2023 — Present',
+    dates: 'Oct 2023 — Aug 2026',
     location: 'Belgrade',
     summary:
       'Integrating AI tools into back-end services, building the systems those products run on, and keeping database operations healthy.',

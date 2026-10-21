@@ -12,13 +12,13 @@ const fadeUp = { hidden: { opacity: 0, y: 22 }, visible: { opacity: 1, y: 0 } }
 export function ProjectDetail({ project }: { project: Project }) {
   const others = projects.filter((item) => item.kind === project.kind && item.slug !== project.slug)
   const facts =
-    project.kind === 'personal'
-      ? [['Stack', project.tags.join(' · ')]]
-      : [
+    project.kind === 'work'
+      ? [
           ['Company', project.company ?? ''],
           ['When', project.dates ?? ''],
           ['Where', project.location ?? ''],
         ]
+      : []
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-zinc-100">
@@ -39,18 +39,20 @@ export function ProjectDetail({ project }: { project: Project }) {
           <motion.p variants={fadeUp} transition={{ duration: 0.6 }} className="mt-6 max-w-2xl text-lg leading-8 text-zinc-400">
             {project.summary}
           </motion.p>
-          <motion.dl
-            variants={fadeUp}
-            transition={{ duration: 0.6 }}
-            className="mt-10 grid gap-6 border-y border-white/[0.07] py-6 sm:grid-cols-3"
-          >
-            {facts.map(([label, value]) => (
-              <div key={label}>
-                <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-500">{label}</dt>
-                <dd className="mt-2 text-sm text-white">{value}</dd>
-              </div>
-            ))}
-          </motion.dl>
+          {facts.length > 0 && (
+            <motion.dl
+              variants={fadeUp}
+              transition={{ duration: 0.6 }}
+              className="mt-10 grid gap-6 border-y border-white/[0.07] py-6 sm:grid-cols-3"
+            >
+              {facts.map(([label, value]) => (
+                <div key={label}>
+                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-zinc-500">{label}</dt>
+                  <dd className="mt-2 text-sm text-white">{value}</dd>
+                </div>
+              ))}
+            </motion.dl>
+          )}
           {project.github && (
             <motion.a
               variants={fadeUp}

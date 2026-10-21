@@ -9,6 +9,22 @@ import { SiteHeader } from '@/components/site-header'
 import { education, interests, languages, personalProjects, profile, skills, stats, work, type Project } from '@/lib/data'
 
 const fadeUp = { hidden: { opacity: 0, y: 22 }, visible: { opacity: 1, y: 0 } }
+const artShapes = ['orbit', 'triangle', 'square'] as const
+
+function ArtMark({ shape }: { shape: (typeof artShapes)[number] }) {
+  if (shape === 'triangle') {
+    return (
+      <svg className="art-triangle" viewBox="0 0 120 108" fill="none" aria-hidden>
+        <path d="M60 6 L114 102 H6 Z" stroke="rgba(255,255,255,.32)" />
+        <path d="M60 28 L96 90 H24 Z" stroke="rgba(255,255,255,.16)" />
+      </svg>
+    )
+  }
+
+  if (shape === 'square') return <div className="art-square" />
+
+  return <div className="art-orbit" />
+}
 
 function ProjectCard({ project, index, label }: { project: Project; index: number; label: string }) {
   return (
@@ -27,7 +43,7 @@ function ProjectCard({ project, index, label }: { project: Project; index: numbe
           <span className="font-mono text-xs text-white/50">
             0{index + 1} / {label}
           </span>
-          <div className="art-orbit" />
+          <ArtMark shape={artShapes[index % artShapes.length]} />
           <ArrowUpRight className="absolute right-5 top-5 size-5 text-white/50 transition group-hover:text-white" />
         </div>
         <div className="p-6">
@@ -249,21 +265,31 @@ export function Portfolio() {
                 event.preventDefault()
                 const form = event.currentTarget
                 const data = new FormData(form)
+                const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
                 setStatus('sending')
                 setFormError('')
+                if (!accessKey) {
+                  setStatus('error')
+                  setFormError('Mail is not configured yet.')
+                  return
+                }
                 try {
-                  const response = await fetch('/api/contact', {
+                  const response = await fetch('https://api.web3forms.com/submit', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                     body: JSON.stringify({
+                      access_key: accessKey,
+                      subject: `Portfolio message from ${data.get('name')}`,
+                      from_name: 'Portfolio',
                       name: data.get('name'),
                       email: data.get('email'),
                       message: data.get('message'),
+                      botcheck: Boolean(data.get('botcheck')),
                     }),
                   })
-                  if (!response.ok) {
-                    const payload = (await response.json().catch(() => null)) as { error?: string } | null
-                    throw new Error(payload?.error || 'Could not send the message.')
+                  const payload = (await response.json().catch(() => null)) as { success?: boolean; message?: string; body?: { message?: string } } | null
+                  if (!response.ok || !payload?.success) {
+                    throw new Error(payload?.body?.message || payload?.message || 'Could not send the message.')
                   }
                   form.reset()
                   setStatus('sent')
@@ -274,6 +300,7 @@ export function Portfolio() {
               }}
               className="glass-card flex flex-col gap-5 p-6 sm:p-8"
             >
+              <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" />
               <label className="field-label">
                 Name
                 <input required name="name" className="field-input" placeholder="Your name" />
